@@ -102,19 +102,19 @@ if __name__ == "__main__" :
         sel = int(input("작업을 선택하세요 : "))
         if sel == 1 :
             mem_create()
-            os.system("pause")
+            #os.system("pause")
         elif sel == 2 :
             mem_read1()
-            os.system("pause")
+            #os.system("pause")
         elif sel == 3 :
             mem_read2()
-            os.system("pause")
+            #os.system("pause")
         elif sel == 4 :
             print("회원수정기능은 준비중입니다. ")
-            os.system("pause")
+            #os.system("pause")
         elif sel == 5 :
             print("회원삭제기능은 준비중입니다. ")
-            os.system("pause")
+            #os.system("pause")
         else :
             print("잘못 선택했습니다. ")
-            os.system("pause")
+            #os.system("pause")
