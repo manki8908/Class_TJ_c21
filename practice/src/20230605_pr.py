@@ -60,14 +60,14 @@ def create_goods():
         su integer  default 0,
         dan real default 0.0
         )"""
-        print("111111111")
+        #print("111111111")
         cursor.execute(sql)
-        print("222222222")
+        #print("222222222")
 
         # -------------- 기존 입력값 조회
         sql = """ select * from goods;"""
         cursor.execute(sql)
-        print("111111111")
+        #print("111111111")
         rows = cursor.fetchall()
         print("기존 상품리스트 = ", len(rows))
         for row in rows:
@@ -79,18 +79,18 @@ def create_goods():
 
             # 상품 입력
             in_code = input("상품 코드 입력 : (종료하고 싶으면 엔터)")
-            print("코드: ", in_code)
+            #print("코드: ", in_code)
             if in_code == "" : break
 
             # 회원 이름 중복 조회
             print( " 상품 코드 중복 조회 ")
             sql = f"select * from goods where code = {int(in_code)}"
-            print(sql)
+            #print(sql)
             cursor.execute(sql)
-            print("33333")
+            #print("33333")
             rows = cursor.fetchall()
 
-            print("44444")
+            #print("44444")
 
             if len(rows) > 0:
                 print('회원이 존재합니다, 다시입력하시거나 입력을 멈춥니다(엔터)')
