@@ -237,7 +237,7 @@ def select_one_record():
         while (True) :
             n += 1
 
-            find_arg = input("조회 코드 or 상품명 입력 : (끝내고 싶으면 엔터)")
+            find_arg = input("조회 코드 or 상품명 입력 : (끝내고 싶으면 엔터)   ")
             if find_arg == "" : break
             if find_arg.isdecimal():    # 정수형으로 반환 가능하면 code로 인식
                 find_arg = int(find_arg)
@@ -280,7 +280,7 @@ def main():
         print("상품개별조회 : 3 ")
         print("상품    수정 : 4 ")
         print("상품    삭제 : 5 ")
-        print("프로그램종료 : 6 ")
+        print("프로그램종료 : 9 ")
         sel = int(input("작업을 선택하세요 : "))
         if sel == 1 :
             insert_table()
@@ -297,7 +297,7 @@ def main():
         elif sel == 5 :
             print("상품 삭제기능은 준비중입니다. ")
             os.system("pause")
-        elif sel == 6 :
+        elif sel == 9 :
             print("프로그램을 종료합니다")
             sys.exit()
         else :
