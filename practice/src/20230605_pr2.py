@@ -299,7 +299,7 @@ def main():
             os.system("pause")
         elif sel == 9 :
             print("프로그램을 종료합니다")
-            sys.exit()
+            sys.exit(0) # 1=강제종료, 0=일반종료(에러포함)
         else :
             print("잘못 선택했습니다. ")
             os.system("pause")
