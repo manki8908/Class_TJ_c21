@@ -16,9 +16,9 @@ config = {
     'charset':'utf8',
     'use_unicode' : True}
 
-class crud_table():
+class CrudTable():
 
-
+    # 생성자
     def __init__(self, config=config):
         self.config = config
 
@@ -312,7 +312,7 @@ class crud_table():
 if __name__ == '__main__':
 
     print(config)
-    goods_table = crud_table(config)
+    goods_table = CrudTable(config)
 
     goods_table.main()
 
