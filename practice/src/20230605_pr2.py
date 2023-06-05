@@ -17,14 +17,13 @@ config = {
     'use_unicode' : True}
 
 
-# 회원정보 삽입 서브루틴
-def create_goods():
+# DB 및 테이블 서브루틴
+def create_table():
 
     try :
 
         # db 연동 객체 
         conn = pymysql.connect(**config)
-
         # sql문 실행 객체
         cursor = conn.cursor()
 
@@ -62,7 +61,7 @@ def create_goods():
             print('table 없음')
 
 
-        # -------------- 회원 table 생성 ( tb1 )
+        # -------------- table 생성 및 리스트 출력
         # 회원정보(이름, 나이, 회원번호)
         sql = """ create table if not exists goods(
         code integer primary key,
@@ -73,6 +72,40 @@ def create_goods():
         #print("111111111")
         cursor.execute(sql)
         #print("222222222")
+
+        # -------------- 기존 입력값 조회
+        sql = """ select * from goods;"""
+        cursor.execute(sql)
+        #print("111111111")
+        rows = cursor.fetchall()
+        print("기존 상품리스트 = ", len(rows))
+        for row in rows:
+            print(row)
+
+    except Exception as e:
+        print("db 연동 error : ", e)
+        conn.rollback()
+
+    finally:
+        cursor.close()
+        conn.close()
+
+
+
+# 상품 입력 서브루틴
+def insert_table():
+
+    try :
+
+        # db 연동 객체 
+        conn = pymysql.connect(**config)
+
+        # sql문 실행 객체
+        cursor = conn.cursor()
+
+        sql = "use test_db;"
+        cursor.execute(sql)
+        conn.commit() # db 반영
 
         # -------------- 기존 입력값 조회
         sql = """ select * from goods;"""
@@ -135,8 +168,9 @@ def create_goods():
         cursor.close()
         conn.close()
             
-        
-def select_total_record():
+
+# 상품 전체목록 조회 서브루틴
+def select_all_record():
 
     try:
 
@@ -179,6 +213,7 @@ def select_total_record():
         conn.close()
 
 
+# 단일 상품 조회(code or 상품명)
 def select_one_record():
 
     try:
@@ -192,7 +227,7 @@ def select_one_record():
         cursor.execute(sql)
         conn.commit() # db 반영
         
-        # 전체 레코드 조회
+        # 전체 레코드 삽입
         sql = "select * from goods"
         cursor.execute(sql)
         rows = cursor.fetchall()
@@ -201,11 +236,18 @@ def select_one_record():
         n = 0
         while (True) :
             n += 1
-            name = input("조회 이름 입력 : 끝내고 싶으면 엔터")
-            if name == "" : break
+
+            find_arg = input("조회 코드 or 상품명 입력 : (끝내고 싶으면 엔터)")
+            if find_arg == "" : break
+            if find_arg.isdecimal():    # 정수형으로 반환 가능하면 code로 인식
+                find_arg = int(find_arg)
+                #print("정수형으로 반환 가능")
+                sql = f"select * from goods where code = {find_arg}"
+            else:
+                #print("정수형으로 반환 불가능")
+                sql = f"select * from goods where name like '%{find_arg}%'"
 
             print(f"===상품조회{n}===")
-            sql = f"select * from goods where name like '%{name}%'"
             cursor.execute(sql)
             rows = cursor.fetchall()
 
@@ -226,6 +268,10 @@ def select_one_record():
 
 
 def main():
+
+    # DB 및 table 유무 조회 및 생성
+    create_table()
+
     while True:
         #os.system('cls')
         print("---상품관리---")
@@ -234,12 +280,13 @@ def main():
         print("상품개별조회 : 3 ")
         print("상품    수정 : 4 ")
         print("상품    삭제 : 5 ")
+        print("프로그램종료 : 6 ")
         sel = int(input("작업을 선택하세요 : "))
         if sel == 1 :
-            create_goods()
+            insert_table()
             os.system("pause")
         elif sel == 2 :
-            select_total_record()
+            select_all_record()
             os.system("pause")
         elif sel == 3 :
             select_one_record()
@@ -250,6 +297,9 @@ def main():
         elif sel == 5 :
             print("상품 삭제기능은 준비중입니다. ")
             os.system("pause")
+        elif sel == 6 :
+            print("프로그램을 종료합니다")
+            sys.exit()
         else :
             print("잘못 선택했습니다. ")
             os.system("pause")
