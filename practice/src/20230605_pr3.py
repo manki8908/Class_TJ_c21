@@ -21,10 +21,7 @@ class crud_table():
 
     def __init__(self, config=config):
         self.config = config
-        #print("캐릭터가 생성되었습니다")
-        #self.conn = pymysql.connect(**self.config)
-        #pymysql.connect(config)
-        #self.cursor = self.conn.cursor()
+
 
     # DB 및 테이블 서브루틴
     def create_table(self):
@@ -275,42 +272,48 @@ class crud_table():
             cursor.close()
             conn.close()
 
+    def main(self):
+
+        # DB 및 table 유무 조회 및 생성
+        goods_table.create_table()
+
+        while True:
+            #os.system('cls')
+            print("---상품관리---")
+            print("상품    등록 : 1 ")
+            print("상품목록조회 : 2 ")
+            print("상품개별조회 : 3 ")
+            print("상품    수정 : 4 ")
+            print("상품    삭제 : 5 ")
+            print("프로그램종료 : 9 ")
+            sel = int(input("작업을 선택하세요 : "))
+            if sel == 1 :
+                goods_table.insert_table()
+                os.system("pause")
+            elif sel == 2 :
+                goods_table.select_all_record()
+                os.system("pause")
+            elif sel == 3 :
+                goods_table.select_one_record()
+                os.system("pause")
+            elif sel == 4 :
+                print("상품 수정기능은 준비중입니다. ")
+                os.system("pause")
+            elif sel == 5 :
+                print("상품 삭제기능은 준비중입니다. ")
+                os.system("pause")
+            elif sel == 9 :
+                print("프로그램을 종료합니다")
+                sys.exit(0) # 1=강제종료, 0=일반종료(에러포함)
+            else :
+                print("잘못 선택했습니다. ")
+                os.system("pause")
+
 if __name__ == '__main__':
 
     print(config)
     goods_table = crud_table(config)
-    # DB 및 table 유무 조회 및 생성
-    #crud_table.create_table()
-    goods_table.create_table()
 
-    while True:
-        #os.system('cls')
-        print("---상품관리---")
-        print("상품    등록 : 1 ")
-        print("상품목록조회 : 2 ")
-        print("상품개별조회 : 3 ")
-        print("상품    수정 : 4 ")
-        print("상품    삭제 : 5 ")
-        print("프로그램종료 : 9 ")
-        sel = int(input("작업을 선택하세요 : "))
-        if sel == 1 :
-            goods_table.insert_table()
-            os.system("pause")
-        elif sel == 2 :
-            goods_table.select_all_record()
-            os.system("pause")
-        elif sel == 3 :
-            goods_table.select_one_record()
-            os.system("pause")
-        elif sel == 4 :
-            print("상품 수정기능은 준비중입니다. ")
-            os.system("pause")
-        elif sel == 5 :
-            print("상품 삭제기능은 준비중입니다. ")
-            os.system("pause")
-        elif sel == 9 :
-            print("프로그램을 종료합니다")
-            sys.exit(0) # 1=강제종료, 0=일반종료(에러포함)
-        else :
-            print("잘못 선택했습니다. ")
-            os.system("pause")
+    goods_table.main()
+
+    
