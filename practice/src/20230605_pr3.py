@@ -22,14 +22,17 @@ class crud_table():
     def __init__(self, config=config):
         self.config = config
         #print("캐릭터가 생성되었습니다")
+        #self.conn = pymysql.connect(**self.config)
+        #pymysql.connect(config)
+        #self.cursor = self.conn.cursor()
 
     # DB 및 테이블 서브루틴
-    def create_table():
+    def create_table(self):
 
         try :
 
             # db 연동 객체 
-            conn = pymysql.connect(**config)
+            conn = pymysql.connect(**self.config)
             # sql문 실행 객체
             cursor = conn.cursor()
 
@@ -41,7 +44,7 @@ class crud_table():
 
             sql = "show databases"
             cursor.execute(sql)
-            dbs = cursor.fetchall()
+            dbs =   cursor.fetchall()
             print(dbs)
                     # table 유무 확인
             if dbs:
@@ -57,7 +60,7 @@ class crud_table():
             # 전체 table 목록 출력
             sql = "show tables"
             cursor.execute(sql)
-            tables = cursor.fetchall()
+            tables =    cursor.fetchall()
             print(tables)
 
             # table 유무 확인
@@ -83,7 +86,7 @@ class crud_table():
             sql = """ select * from goods;"""
             cursor.execute(sql)
             #print("111111111")
-            rows = cursor.fetchall()
+            rows =  cursor.fetchall()
             print("기존 상품리스트 = ", len(rows))
             for row in rows:
                 print(row)
@@ -99,12 +102,12 @@ class crud_table():
 
 
     # 상품 입력 서브루틴
-    def insert_table():
+    def insert_table(self):
 
         try :
 
             # db 연동 객체 
-            conn = pymysql.connect(**config)
+            conn = pymysql.connect(**self.config)
 
             # sql문 실행 객체
             cursor = conn.cursor()
@@ -117,7 +120,7 @@ class crud_table():
             sql = """ select * from goods;"""
             cursor.execute(sql)
             #print("111111111")
-            rows = cursor.fetchall()
+            rows =  cursor.fetchall()
             print("기존 상품리스트 = ", len(rows))
             for row in rows:
                 print(row)
@@ -137,7 +140,7 @@ class crud_table():
                 #print(sql)
                 cursor.execute(sql)
                 #print("33333")
-                rows = cursor.fetchall()
+                rows =  cursor.fetchall()
 
                 #print("44444")
 
@@ -176,12 +179,12 @@ class crud_table():
 
 
     # 상품 전체목록 조회 서브루틴
-    def select_all_record():
+    def select_all_record(self):
 
         try:
 
             # db 연동 객체 
-            conn = pymysql.connect(**config)
+            conn = pymysql.connect(**self.config)
             # sql문 실행 객체
             cursor = conn.cursor()
 
@@ -192,10 +195,10 @@ class crud_table():
             # 전체 레코드 조회
             sql = "select * from goods"
             cursor.execute(sql)
-            rows = cursor.fetchall()
+            rows =  cursor.fetchall()
 
             print("===상품 전체조회===")
-            names = [description[0] for description in cursor.description]
+            names = [description[0] for description in  cursor.description]
             #print(names)
             for i in range(len(names)):
                 if i is len(names)-1:
@@ -220,12 +223,12 @@ class crud_table():
 
 
     # 단일 상품 조회(code or 상품명)
-    def select_one_record():
+    def select_one_record(self):
 
         try:
 
             # db 연동 객체 
-            conn = pymysql.connect(**config)
+            conn = pymysql.connect(**self.config)
             # sql문 실행 객체
             cursor = conn.cursor()
 
@@ -236,7 +239,7 @@ class crud_table():
             # 전체 레코드 삽입
             sql = "select * from goods"
             cursor.execute(sql)
-            rows = cursor.fetchall()
+            rows =  cursor.fetchall()
 
             # -------------- 단일 상품 조회
             n = 0
@@ -255,7 +258,7 @@ class crud_table():
 
                 print(f"===상품조회{n}===")
                 cursor.execute(sql)
-                rows = cursor.fetchall()
+                rows =  cursor.fetchall()
 
                 if rows: 
                     for row in rows:
@@ -274,9 +277,11 @@ class crud_table():
 
 if __name__ == '__main__':
 
-    crud_table(config=config)
+    print(config)
+    goods_table = crud_table(config)
     # DB 및 table 유무 조회 및 생성
-    crud_table.create_table()
+    #crud_table.create_table()
+    goods_table.create_table()
 
     while True:
         #os.system('cls')
@@ -289,13 +294,13 @@ if __name__ == '__main__':
         print("프로그램종료 : 9 ")
         sel = int(input("작업을 선택하세요 : "))
         if sel == 1 :
-            crud_table.insert_table()
+            goods_table.insert_table()
             os.system("pause")
         elif sel == 2 :
-            crud_table.select_all_record()
+            goods_table.select_all_record()
             os.system("pause")
         elif sel == 3 :
-            crud_table.select_one_record()
+            goods_table.select_one_record()
             os.system("pause")
         elif sel == 4 :
             print("상품 수정기능은 준비중입니다. ")
