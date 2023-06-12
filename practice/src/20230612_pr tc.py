@@ -26,41 +26,7 @@ class GoodsRead :
             self.read_sql = "select * from goods where name ="
         else :
             self.read_sql = "select * from goods"
-
-
-    def inputQuery(crud, in_code):
-
-        if crud == 'update':
-            print("update start")
-            sql = f'''
-            update goods set 
-            name = {input('상품명 : ')}, 
-            su = {int(input('수량 : '))}, 
-            dan = {int(input('단가 : '))} 
-            where code={in_code}
-            '''
-            print("sql in inputQuery: ", sql)
-
-
-        elif crud == 'insert':
-
-            sql = f'''
-            insert into goods(code,name,su,dan) 
-            values({in_code},'{input('상품명 : ')}', {int(input('수량 : '))},{int(input('단가 : '))})
-            '''
-
-
-        elif crud == 'select_code':
-
-            sql = f"select * from goods where code = {in_code}"
-
-
-        else:
-            print("잘못된 crud 값을 입력했습니다")
-            os.system("pause")
-
-
-        return sql
+   
 
 
     def goodsModify(self):
@@ -78,7 +44,8 @@ class GoodsRead :
             print("<<<상품 개별 조회({})입니다>>>".format(in_code))
             print('111111')
             print(in_code)
-            sql = self.inputQuery('select_code',in_code)
+            #sql = self.inputQuery('select_code', in_code)
+            sql = inputQuery('selcode', in_code)
             print('222222')
 
 
@@ -101,7 +68,7 @@ class GoodsRead :
                     # sql = f"update goods set name='{name}', su={su}, dan = {dan} where code={in_code}"
 
                     # 수정후
-                    sql = self.inputQuery('update', in_code)
+                    sql = inputQuery('update', in_code)
 
                     cursor.execute(sql) # sql문 실행
                     conn.commit()
@@ -111,7 +78,7 @@ class GoodsRead :
                     #sql = f"select * from goods where code = {in_code}"
 
                     # 수정후
-                    sql = self.inputQuery('select_code', in_code)
+                    sql = inputQuery('select_code', in_code)
 
 
                     cursor.execute(sql) # sql문 실행 
@@ -176,7 +143,7 @@ class GoodsRead :
 
                 # 수정후
                 in_code = int(input('수정할 코드 입력 : '))
-                sql = self.inputQuery('select_code', {'code':in_code})
+                sql = inputQuery('select_code', {'code':in_code})
 
             elif self.read_sel == '상품명' : 
 
@@ -187,7 +154,7 @@ class GoodsRead :
 
                 # 수정후
                 in_code = int(input('수정할 코드 입력 : '))
-                sql = self.inputQuery('select_code', {'code':in_code})
+                sql = inputQuery('select_code', {'code':in_code})
 
             else :
                 #print("<<<상품 목록 조회결과입니다>>>")
@@ -262,7 +229,7 @@ def goodsCreate(self) :
                 # sql = f"insert into goods(code,name,su,dan) values({in_code},'{in_name}', {in_su},{in_dan})" 
 
                 # 수정후
-                sql = self.inputQuery('update', in_code)
+                sql = inputQuery('update', in_code)
 
 
                 cursor.execute(sql)
@@ -300,6 +267,40 @@ def goodsReadAll() :
         cursor.close()
         conn.close()
 
+
+def inputQuery(crud, in_code):
+
+    if crud == 'update':
+        print("update start")
+        sql = f'''
+        update goods set 
+        name = {input('상품명 : ')}, 
+        su = {int(input('수량 : '))}, 
+        dan = {int(input('단가 : '))} 
+        where code={in_code}
+        '''
+        print("sql in inputQuery: ", sql)
+
+
+    elif crud == 'insert':
+
+        sql = f'''
+        insert into goods(code,name,su,dan) 
+        values({in_code},'{input('상품명 : ')}', {int(input('수량 : '))},{int(input('단가 : '))})
+        '''
+
+
+    elif crud == 'selcode':
+
+        sql = f"select * from goods where code = {in_code}"
+
+
+    else:
+        print("잘못된 crud 값을 입력했습니다")
+        os.system("pause")
+
+
+    return sql
 
 
 if __name__ == "__main__" :
