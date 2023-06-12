@@ -291,7 +291,7 @@ class CrudTable():
     # 삭제 기능 추가
     # 1. 전체레코드 조회
     # 2. 삭제할 품목 존재 여부 확인
-    # 3. 삭제
+    # 3. 삭제 및 삭제 후 리스트 조회
     def delete_record(self):
 
         try:
@@ -348,7 +348,7 @@ class CrudTable():
                     self.select_all_record()
                     in_code = input("삭제 상품이 존재하지 않습니다, 다시 상품목을 조회합니다 : (종료= 엔터, 다시진행=1)")
                     #print("코드: ", in_code)
-                    if in_code == "" :  break 
+                    if in_code == "" :  break
 
 
         except Exception as e:
@@ -358,6 +358,71 @@ class CrudTable():
         finally:
             cursor.close()
             conn.close()
+
+
+    # 수정기능 추가
+    def update_record(self):
+
+        try:
+
+            # db 연동 객체 
+            conn = pymysql.connect(**self.config)
+            # sql문 실행 객체
+            cursor = conn.cursor()
+
+            sql = "use test_db;"
+            cursor.execute(sql)
+            conn.commit() # db 반영  
+
+            n = 0
+            while (True) :
+                n += 1
+
+                # 수정 위한 현재 레코드 리스트 출력
+                self.select_all_record()  
+
+                # 수정 품목 조회
+                self.select_one_record()
+
+                # 수정 진행
+                if self.is_it_there: 
+                    print("수정할 상품이 존재합니다, 수정 내용을 입력하세요.")   
+                    code = int(input('수정할 코드 입력 : '))
+                    name = input('수정할 상품명 입력 : ')
+                    su = int(input('수정할 수량 입력 :'))
+                    dan = int(input('수정할 단가 입력 :'))
+
+                    # .. 수정                                         
+                    sql = f"update goods set name='{name}', su={su}, dan = {dan} where code={code}"
+
+                    #print('11111111', sql)
+                    cursor.execute(sql) # sql문 실행
+                    #print("222222")
+                    conn.commit()
+                    #print("3333")
+
+                    # 삭제후 레코드 리스트 출력
+                    print("수정에 성공하였습니다. 수정된 리스트를 다시 출력합니다.")
+                    self.select_all_record()
+
+                    break
+
+                else: 
+                    self.select_all_record()
+                    in_code = input("수정할 상품이 존재하지 않습니다, 다시 상품목을 조회합니다 : (종료= 엔터, 다시진행=1)")
+                    #print("코드: ", in_code)
+                    if in_code == "" :  break
+
+
+        except Exception as e:
+            print("db 연동 error : ", e)
+            conn.rollback()
+
+        finally:
+            cursor.close()
+            conn.close()
+
+
 
     def main(self):
 
@@ -384,7 +449,7 @@ class CrudTable():
                 goods_table.select_one_record()
                 os.system("pause")
             elif sel == 4 :
-                print("상품 수정기능은 준비중입니다. ")
+                goods_table.update_record()
                 os.system("pause")
             elif sel == 5 :
                 goods_table.delete_record()
