@@ -245,6 +245,7 @@ def goodsCreate(self) :
     finally:
         cursor.close()
         conn.close()
+        
 def goodsReadAll() :
     try :
         # (1) db 연동 객체 
