@@ -290,10 +290,18 @@ def tableCreate() :
 #
 def userInput():
 
-    # ------- 20230612 
-    # in_name = input("상품명을 입력하세요 : ")
-    # in_su = int(input("수량을 입력하세요 : "))
-    # in_dan = int(input("단가를 입력하세요 : "))
+    
+    studID = input("학번 입력 : ")
+    while (studID):
+        print("상품명을 다시 입력해주세요.")
+        in_name = input("상품명을 입력하세요 : ")
+
+    name = input("name 입력 : ")
+    jumin1 = input("주민번호 앞자리(6자리) 입력 : ")
+    jumin2 = input("주민번호 뒷자리(7자리) 입력 : ")
+    addr1 = input("지번주소 입력 : ")
+    addr2 = input("도로명주소 입력 : ")
+
 
 
     # ------- 20230613
