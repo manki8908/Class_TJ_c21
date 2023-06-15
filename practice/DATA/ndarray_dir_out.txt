@@ -1,0 +1,14 @@
+<attribute 'T' of 'numpy.ndarray' objects>,T
+<slot wrapper '__abs__' of 'numpy.ndarray' objects>,__abs__
+<slot wrapper '__add__' of 'numpy.ndarray' objects>,__add__
+<slot wrapper '__and__' of 'numpy.ndarray' objects>,__and__
+<method '__array__' of 'numpy.ndarray' objects>,__array__
+<method '__array_finalize__' of 'numpy.ndarray' objects>,__array_finalize__
+<method '__array_function__' of 'numpy.ndarray' objects>,__array_function__
+<attribute '__array_interface__' of 'numpy.ndarray' objects>,__array_interface__
+<method '__array_prepare__' of 'numpy.ndarray' objects>,__array_prepare__
+<attribute '__array_priority__' of 'numpy.ndarray' objects>,__array_priority__
+<attribute '__array_struct__' of 'numpy.ndarray' objects>,__array_struct__
+<method '__array_ufunc__' of 'numpy.ndarray' objects>,__array_ufunc__
+<method '__array_wrap__' of 'numpy.ndarray' objects>,__array_wrap__
+<slot wrapper '__bool__' of 'numpy.ndarray' objects>,__bool__
