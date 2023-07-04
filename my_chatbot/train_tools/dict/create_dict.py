@@ -25,10 +25,11 @@ corpus_data = read_corpus_data('./corpus.txt')
 
 
 # 망뭉치 데이터에서 키워드만 추출해서 사전 리스트 생성
+# 임의 chatbot_dict.bin 파일을 미리 가져다 놔야됨
 #p = Preprocess(word2index_dic='chatbot_dict.bin',
-#               userdic = '../../utils/user_dic.tsv')
+#            userdic = '../../utils/user_dic.tsv')
+p = Preprocess(userdic = '../../utils/user_dic.tsv')
 
-p = Preprocess()
 dict = []
 for c in corpus_data:
     pos = p.pos(c[1])   # 단어 분류
@@ -38,6 +39,9 @@ for c in corpus_data:
     # for k in keywords:
     #     dict.append(k)
 
+# with open("print_dict_1st.txt", "w", encoding='utf8') as af:
+#     for i, v in enumerate(dict):
+#         print(i, v, sep=', ', file=af)
 #print(dict[0:50])
 
 # 사전에 사용될 word2index 생성
@@ -45,7 +49,9 @@ for c in corpus_data:
 tokenizer = preprocessing.text.Tokenizer(oov_token='OOV')
 tokenizer.fit_on_texts(dict)
 word_index = tokenizer.word_index
-print("word_index--------", word_index)
+# with open("print_word_index_1st.txt", "w", encoding='utf8') as nf:
+#     for i, (k, v) in enumerate(word_index.items()):
+#         print(i, k, v, sep=', ', file=nf)
 
 # 사전 파일 생성
 f = open("chatbot_dict.bin", "wb")
