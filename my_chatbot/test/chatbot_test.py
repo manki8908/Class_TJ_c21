@@ -7,10 +7,10 @@ from utils.Preprocess import Preprocess
 
 # 전처리 객체 생성
 head = r'C:\workspace\VScode_project\project2\chatbot_book_ex'
-#p = Preprocess(word2index_dic='../train_tools/dict/chatbot_dict.bin',
-#               userdic='../utils/user_dic.tsv')
-p = Preprocess(word2index_dic=head+'/train_tools/dict/chatbot_dict.bin',
-               userdic=head+'/utils/user_dic.tsv')
+p = Preprocess(word2index_dic='../train_tools/dict/chatbot_dict.bin',
+               userdic='../utils/user_dic.tsv')
+#p = Preprocess(word2index_dic=head+'/train_tools/dict/chatbot_dict.bin',
+#               userdic=head+'/utils/user_dic.tsv')
 
 # 질문/답변 학습 디비 연결 객체 생성
 db = Database(
@@ -20,16 +20,17 @@ db.connect()    # 디비 연결
 
 # 원문
 #query = "오전에 탕수육 10개 주문합니다"
+query = "오늘 탕수육 주문할래"
 # query = "화자의 질문 의도를 파악합니다."
 # query = "안녕하세요"
 #query = "자장면 주문할게요"
-query = "안녕"
+#query = "안녕"
 #query = "안녕하세요"
 
 # 의도 파악
 from model.intent.IntentModel import IntentModel
-#intent = IntentModel(model_name='../model/intent/intent_model.h5', proprocess=p)
-intent = IntentModel(model_name=head+'/models/intent/intent_model.h5', proprocess=p)
+intent = IntentModel(model_name='../model/intent/intent_model.h5', proprocess=p)
+#intent = IntentModel(model_name=head+'/models/intent/intent_model.h5', proprocess=p)
 predict = intent.predict_class(query)
 intent_name = intent.labels[predict]
 
