@@ -16,7 +16,9 @@ app = Flask(__name__)
 def get_answer_from_engine(bottype, query):
     # 챗봇 엔진 서버 연결
     mySocket = socket.socket()
+    print("3333333")
     mySocket.connect((host, port))
+    print("44444444")
 
     # 챗봇 엔진 질의 요청
     json_data = {
@@ -48,7 +50,9 @@ def query(bot_type):
     try:
         if bot_type == 'TEST':
             # 챗봇 API 테스트
+            print("11111")
             ret = get_answer_from_engine(bottype=bot_type, query=body['query'])
+            print("22222")
             return jsonify(ret)
 
         elif bot_type == "KAKAO":
