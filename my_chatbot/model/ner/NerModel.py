@@ -25,6 +25,7 @@ class NerModel:
 
         # 문장내 키워드 추출(불용어 제거)
         keywords = self.p.get_keywords(pos, without_tag=True)
+        #print("keywords: ",keywords)
         sequences = [self.p.get_wordidx_sequence(keywords)]
 
         # 패딩처리
@@ -43,6 +44,7 @@ class NerModel:
 
         # 문장내 키워드 추출(불용어 제거)
         keywords = self.p.get_keywords(pos, without_tag=True)
+        #print("keywords: ",keywords)
         sequences = [self.p.get_wordidx_sequence(keywords)]
 
         # 패딩처리

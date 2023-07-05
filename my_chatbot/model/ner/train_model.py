@@ -76,8 +76,8 @@ x_train = [p.get_wordidx_sequence(sent) for sent in sentences]
 y_train = tag_tokenizer.texts_to_sequences(tags)
 
 print("x_train, y_train")
-print(x_train[0:2])
-print(y_train[0:2])
+print(x_train[-2:-1])
+print(y_train[-2:-1])
 
 index_to_ner = tag_tokenizer.index_word # 시퀀스 인덱스를 NER로 변환 하기 위해 사용
 index_to_ner[0] = 'PAD'  # 패딩값의 예측값 키워드 추가
@@ -113,7 +113,7 @@ model.add(Bidirectional(LSTM(200, return_sequences=True, dropout=0.50, recurrent
 model.add(TimeDistributed(Dense(tag_size, activation='softmax')))
 model.compile(loss='categorical_crossentropy', optimizer=Adam(0.01), metrics=['accuracy'])
 #model.fit(x_train, y_train, batch_size=128, epochs=10)
-model.fit(x_train, y_train, batch_size=128, epochs=2)
+model.fit(x_train, y_train, batch_size=128, epochs=1)
 
 print("평가 결과 : ", model.evaluate(x_test, y_test)[1])
 model.save('ner_model2.h5')

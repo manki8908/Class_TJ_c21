@@ -27,3 +27,5 @@ for i in query_list:
     print(predicts)
     print(tags)
 
+# sen = p.pos(query5)
+# print(sen)
