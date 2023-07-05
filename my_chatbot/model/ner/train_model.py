@@ -26,11 +26,13 @@ def read_file(file_name):
     return sents
 
 
-p = Preprocess(word2index_dic='../../train_tools/dict/chatbot_dict.bin',
+#p = Preprocess(word2index_dic='../../train_tools/dict/chatbot_dict.bin',
+#               userdic='../../utils/user_dic.tsv')
+p = Preprocess(word2index_dic='../../train_tools/dict/chatbot_dict3.bin',
                userdic='../../utils/user_dic.tsv')
 
 # 학습용 말뭉치 데이터를 불러옴
-corpus = read_file(r'C:\workspace\VScode_project\project2\chatbot_book_ex\models\ner\ner_train.txt')
+corpus = read_file('./ner_train.txt')
 #print(corpus[0:2]) # shape = ( batch, sequence(순서,단어,태깅,BIO) )
 # [ [('1', '가락지빵', 'NNG', 'B_FOOD'), ('2', '주문', 'NNP', 'O'), ('3', '하', 'VV', 'O'), ('4', '고', 'EC', 'O'), ('5', '싶', 'VX', 'O'), ('6', '어요', 'EC', 'O')]
 #   [('1', '가락지빵', 'NNG', 'B_FOOD'), ('2', '먹', 'VV', 'O'), ('3', '고', 'EC', 'O'), ('4', '싶', 'VX', 'O'), ('5', '어요', 'EC', 'O')]
@@ -110,10 +112,11 @@ model.add(Embedding(input_dim=vocab_size, output_dim=30, input_length=max_len, m
 model.add(Bidirectional(LSTM(200, return_sequences=True, dropout=0.50, recurrent_dropout=0.25)))
 model.add(TimeDistributed(Dense(tag_size, activation='softmax')))
 model.compile(loss='categorical_crossentropy', optimizer=Adam(0.01), metrics=['accuracy'])
-model.fit(x_train, y_train, batch_size=128, epochs=10)
+#model.fit(x_train, y_train, batch_size=128, epochs=10)
+model.fit(x_train, y_train, batch_size=128, epochs=2)
 
 print("평가 결과 : ", model.evaluate(x_test, y_test)[1])
-model.save('ner_model.h5')
+model.save('ner_model2.h5')
 
 
 # 시퀀스를 NER 태그로 변환

@@ -54,7 +54,8 @@ word_index = tokenizer.word_index
 #         print(i, k, v, sep=', ', file=nf)
 
 # 사전 파일 생성
-f = open("chatbot_dict.bin", "wb")
+#f = open("chatbot_dict.bin", "wb")
+f = open("chatbot_dict3.bin", "wb")
 try:
     pickle.dump(word_index, f)
 except Exception as e:
