@@ -20,7 +20,9 @@ query5 = "오늘 오전 13시 2분에 우라회 주문 하고 싶어요"
 query6 = "오늘 오전 13시 2분에 촐랭이밥 주문 하고 싶어요" 
 
 query = "오늘 오전 13시 2분에 싱싱회 주문 하고 싶어요" 
-query = "강원, 매봉산 코스 찾아줘"
+query = "매봉산 산들길 찾아줘"
+query = "망운산 괴정동구간"
+#query = "10시 30분"
 
 #query_list = [query1, query2, query3, query4, query5, query6]
 query_list = [query]
@@ -32,4 +34,4 @@ for i in query_list:
     print(tags)
 
 # sen = p.pos(query5)
-# print(sen)
+# print(sen)ls

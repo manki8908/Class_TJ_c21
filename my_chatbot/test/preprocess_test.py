@@ -7,9 +7,10 @@ from utils.Preprocess import Preprocess
 
 #sent = "내일 오전 10시에 탕수육 주문하고 싶어"
 sent = "내일 오후 24시에 우라회 주문할 수 있을까요"
+sent = "개오름굿산망 용운동구간"
 
 # 전처리 객체 생성
-p = Preprocess(userdic='../utils/user_dic.tsv')
+p = Preprocess(userdic='../utils/user_dic1.tsv')
 # 형태소 분석기 실행
 pos = p.pos(sent)
 # 품사 태그와 같이 키워드 출력

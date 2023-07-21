@@ -32,7 +32,8 @@ p = Preprocess(word2index_dic='../../train_tools/dict/chatbot_dict3.bin',
                userdic='../../utils/user_dic.tsv')
 
 # 학습용 말뭉치 데이터를 불러옴
-corpus = read_file('./ner_train.txt')
+#corpus = read_file('./ner_train.txt')
+corpus = read_file('./mtn_ner_train.txt')
 #print(corpus[0:2]) # shape = ( batch, sequence(순서,단어,태깅,BIO) )
 # [ [('1', '가락지빵', 'NNG', 'B_FOOD'), ('2', '주문', 'NNP', 'O'), ('3', '하', 'VV', 'O'), ('4', '고', 'EC', 'O'), ('5', '싶', 'VX', 'O'), ('6', '어요', 'EC', 'O')]
 #   [('1', '가락지빵', 'NNG', 'B_FOOD'), ('2', '먹', 'VV', 'O'), ('3', '고', 'EC', 'O'), ('4', '싶', 'VX', 'O'), ('5', '어요', 'EC', 'O')]
@@ -58,6 +59,8 @@ for t in corpus:
 print("샘플 크기 : \n", len(sentences))
 print("0번 째 샘플 단어 시퀀스 : \n", sentences[0])
 print("0번 째 샘플 bio 태그 : \n", tags[0])
+print("마지막 샘플 단어 시퀀스 : \n", sentences[-1])
+print("마지막 샘플 bio 태그 : \n", tags[-1])
 print("샘플 단어 시퀀스 최대 길이 :", max(len(l) for l in sentences))
 print("샘플 단어 시퀀스 평균 길이 :", (sum(map(len, sentences))/len(sentences)))
 
@@ -81,6 +84,8 @@ print(y_train[-2:-1])
 
 index_to_ner = tag_tokenizer.index_word # 시퀀스 인덱스를 NER로 변환 하기 위해 사용
 index_to_ner[0] = 'PAD'  # 패딩값의 예측값 키워드 추가
+print(index_to_ner)
+
 
 # 시퀀스 패딩 처리
 max_len = 40
@@ -102,43 +107,43 @@ print("테스트 샘플 시퀀스 형상 : ", x_test.shape)
 print("테스트 샘플 레이블 형상 : ", y_test.shape)
 
 
-# # 모델 정의 (Bi-LSTM)
-# from tensorflow.keras.models import Sequential
-# from tensorflow.keras.layers import LSTM, Embedding, Dense, TimeDistributed, Dropout, Bidirectional
-# from tensorflow.keras.optimizers import Adam
+# 모델 정의 (Bi-LSTM)
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import LSTM, Embedding, Dense, TimeDistributed, Dropout, Bidirectional
+from tensorflow.keras.optimizers import Adam
 
-# model = Sequential()
-# model.add(Embedding(input_dim=vocab_size, output_dim=30, input_length=max_len, mask_zero=True))
-# model.add(Bidirectional(LSTM(200, return_sequences=True, dropout=0.50, recurrent_dropout=0.25)))
-# model.add(TimeDistributed(Dense(tag_size, activation='softmax')))
-# model.compile(loss='categorical_crossentropy', optimizer=Adam(0.01), metrics=['accuracy'])
-# #model.fit(x_train, y_train, batch_size=128, epochs=10)
-# model.fit(x_train, y_train, batch_size=128, epochs=1)
+model = Sequential()
+model.add(Embedding(input_dim=vocab_size, output_dim=30, input_length=max_len, mask_zero=True))
+model.add(Bidirectional(LSTM(200, return_sequences=True, dropout=0.50, recurrent_dropout=0.25)))
+model.add(TimeDistributed(Dense(tag_size, activation='softmax')))
+model.compile(loss='categorical_crossentropy', optimizer=Adam(0.01), metrics=['accuracy'])
+#model.fit(x_train, y_train, batch_size=128, epochs=10)
+model.fit(x_train, y_train, batch_size=128, epochs=1)
 
-# print("평가 결과 : ", model.evaluate(x_test, y_test)[1])
-# model.save('ner_model2.h5')
-
-
-# # 시퀀스를 NER 태그로 변환
-# def sequences_to_tag(sequences):  # 예측값을 index_to_ner를 사용하여 태깅 정보로 변경하는 함수.
-#     result = []
-#     for sequence in sequences:  # 전체 시퀀스로부터 시퀀스를 하나씩 꺼낸다.
-#         temp = []
-#         for pred in sequence:  # 시퀀스로부터 예측값을 하나씩 꺼낸다.
-#             pred_index = np.argmax(pred)  # 예를 들어 [0, 0, 1, 0 ,0]라면 1의 인덱스인 2를 리턴한다.
-#             temp.append(index_to_ner[pred_index].replace("PAD", "O"))  # 'PAD'는 'O'로 변경
-#         result.append(temp)
-#     return result
+print("평가 결과 : ", model.evaluate(x_test, y_test)[1])
+model.save('ner_model2.h5')
 
 
-# # f1 스코어 계산을 위해 사용
-# from seqeval.metrics import f1_score, classification_report
+# 시퀀스를 NER 태그로 변환
+def sequences_to_tag(sequences):  # 예측값을 index_to_ner를 사용하여 태깅 정보로 변경하는 함수.
+    result = []
+    for sequence in sequences:  # 전체 시퀀스로부터 시퀀스를 하나씩 꺼낸다.
+        temp = []
+        for pred in sequence:  # 시퀀스로부터 예측값을 하나씩 꺼낸다.
+            pred_index = np.argmax(pred)  # 예를 들어 [0, 0, 1, 0 ,0]라면 1의 인덱스인 2를 리턴한다.
+            temp.append(index_to_ner[pred_index].replace("PAD", "O"))  # 'PAD'는 'O'로 변경
+        result.append(temp)
+    return result
 
-# # 테스트 데이터셋의 NER 예측
-# y_predicted = model.predict(x_test)
-# pred_tags = sequences_to_tag(y_predicted) # 예측된 NER
-# test_tags = sequences_to_tag(y_test)    # 실제 NER
 
-# # F1 평가 결과
-# print(classification_report(test_tags, pred_tags))
-# print("F1-score: {:.1%}".format(f1_score(test_tags, pred_tags)))
+# f1 스코어 계산을 위해 사용
+from seqeval.metrics import f1_score, classification_report
+
+# 테스트 데이터셋의 NER 예측
+y_predicted = model.predict(x_test)
+pred_tags = sequences_to_tag(y_predicted) # 예측된 NER
+test_tags = sequences_to_tag(y_test)    # 실제 NER
+
+# F1 평가 결과
+print(classification_report(test_tags, pred_tags))
+print("F1-score: {:.1%}".format(f1_score(test_tags, pred_tags)))
