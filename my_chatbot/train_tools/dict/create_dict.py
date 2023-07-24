@@ -22,7 +22,7 @@ def read_corpus_data(filename):
 # 말뭉치 데이터 가져오기
 corpus_data = read_corpus_data('./corpus.txt')
 #print(corpus_data[0:5])
-
+# "0000	헬로우		0"
 
 # 망뭉치 데이터에서 키워드만 추출해서 사전 리스트 생성
 # 임의 chatbot_dict.bin 파일을 미리 가져다 놔야됨
@@ -33,8 +33,11 @@ p = Preprocess(userdic = '../../utils/user_dic.tsv')
 dict = []
 for c in corpus_data:
     pos = p.pos(c[1])   # 단어 분류
+    print("p: ", pos)
     for k in pos:
+        print('k[0]: ', k)
         dict.append(k[0])
+    break
     # keywords = p.get_keywords(pos, without_tag=True)
     # for k in keywords:
     #     dict.append(k)
@@ -46,19 +49,19 @@ for c in corpus_data:
 
 # 사전에 사용될 word2index 생성
 # 사전의 첫번 째 인덱스에는 OOV 사용
-tokenizer = preprocessing.text.Tokenizer(oov_token='OOV')
-tokenizer.fit_on_texts(dict)
-word_index = tokenizer.word_index
-# with open("print_word_index_1st.txt", "w", encoding='utf8') as nf:
-#     for i, (k, v) in enumerate(word_index.items()):
-#         print(i, k, v, sep=', ', file=nf)
+# tokenizer = preprocessing.text.Tokenizer(oov_token='OOV')
+# tokenizer.fit_on_texts(dict)
+# word_index = tokenizer.word_index
+# # with open("print_word_index_1st.txt", "w", encoding='utf8') as nf:
+# #     for i, (k, v) in enumerate(word_index.items()):
+# #         print(i, k, v, sep=', ', file=nf)
 
-# 사전 파일 생성
-#f = open("chatbot_dict.bin", "wb")
-f = open("chatbot_dict3.bin", "wb")
-try:
-    pickle.dump(word_index, f)
-except Exception as e:
-    print(e)
-finally:
-    f.close()
+# # 사전 파일 생성
+# #f = open("chatbot_dict.bin", "wb")
+# f = open("chatbot_dict3.bin", "wb")
+# try:
+#     pickle.dump(word_index, f)
+# except Exception as e:
+#     print(e)
+# finally:
+#     f.close()
