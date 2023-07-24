@@ -11,13 +11,13 @@ from config.GlobalParams import MAX_SEQ_LEN
 from utils.Preprocess import Preprocess
 
 # 데이터 읽어오기
-train_file = r"C:\workspace\VScode_project\project2\chatbot_book_ex\models\intent\total_train_data.csv"
+train_file = "./mtn_train_data.csv"
 data = pd.read_csv(train_file, delimiter=',')
 queries = data['query'].tolist()
 intents = data['intent'].tolist()
 
 
-p = Preprocess(word2index_dic='../../train_tools/dict/chatbot_dict.bin',
+p = Preprocess(word2index_dic='../../train_tools/dict/chatbot_dict3.bin',
                userdic='../../utils/user_dic.tsv')
 
 # 단어 시퀀스 생성
